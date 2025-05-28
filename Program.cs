@@ -1,9 +1,25 @@
+using AegisTest.DAL;
+using AegisTest.Data;
+using AegisTest.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<AegisTestContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AegisTestContext")));
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    SeedProductData.Initialize(services);
+    SeedProductDescriptionData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

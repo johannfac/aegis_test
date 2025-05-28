@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
     var data = ViewData["data"] as List<string>;
+    var products = ViewData["products"] as IEnumerable<AegisTest.Models.Product>;
 }
 
 <div class="text-center">
@@ -15,6 +16,22 @@
                     @foreach (var dt in data)
                     {
                         <li>@dt</li>
+                    }
+                </ul>
+            }
+        </div>
+        <div class="col-5"></div>
+    </div>
+    
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+            @if (products != null)
+            {
+                <ul>
+                    @foreach (var product in products)
+                    {
+                        <li>@product.Name</li>
                     }
                 </ul>
             }
@@ -39,5 +56,24 @@
         class="btn btn-warning"
     >
         Download PDF
+    </a><br><br>
+
+    <a
+        asp-controller="Home"
+        asp-action="ExcelDb"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-primary"
+    >
+        Download Excel (DB Data)
+    </a>
+    <a
+        asp-controller="Home"
+        asp-action="PdfDb"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-warning"
+    >
+        Download PDF (DB Data)
     </a>
 </div>
